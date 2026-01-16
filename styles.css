@@ -1,0 +1,287 @@
+/* --- THEME VARIABLES SYSTEM --- */
+:root {
+    --hf-bg: #000000;
+    --hf-text: #ffffff;
+    --hf-text-dim: #888888;
+    --hf-accent: #ff4500; 
+    --hf-border: 1px solid #333;
+    --hf-font: system-ui, -apple-system, sans-serif;
+    --hf-panel-bg: #111111;
+}
+
+/* THEME 1: Cyberpunk (Default) */
+[data-theme="cyberpunk"] {
+    --hf-bg: #050505;
+    --hf-text: #eeeeee;
+    --hf-text-dim: #666;
+    --hf-accent: #ff4500;
+    --hf-border: 1px solid #333;
+    --hf-panel-bg: #111;
+}
+
+/* THEME 2: Paperback */
+[data-theme="paperback"] {
+    --hf-bg: #f2e8d5;
+    --hf-text: #2c2c2c;
+    --hf-text-dim: #6e6b64;
+    --hf-accent: #d32f2f;
+    --hf-border: 1px solid #dcd0c0;
+    --hf-panel-bg: #e8decb;
+}
+
+/* THEME 3: Deep Focus */
+[data-theme="deep_focus"] {
+    --hf-bg: #0f172a;
+    --hf-text: #e2e8f0;
+    --hf-text-dim: #64748b;
+    --hf-accent: #38bdf8;
+    --hf-border: 1px solid #1e293b;
+    --hf-panel-bg: #1e293b;
+}
+
+/* THEME 4: Colorblind */
+[data-theme="colorblind"] {
+    --hf-bg: #000000;
+    --hf-text: #ffffff;
+    --hf-text-dim: #aaaaaa;
+    --hf-accent: #ffff00;
+    --hf-border: 2px solid #ffffff;
+    --hf-panel-bg: #000000;
+}
+
+/* --- MAIN OVERLAY --- */
+#rsvp-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--hf-bg);
+    color: var(--hf-text);
+    z-index: 2147483647;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    font-family: var(--hf-font);
+    line-height: 1.5;
+    text-align: left;
+}
+
+/* --- RSVP DISPLAY --- */
+#rsvp-word-container {
+    display: flex; flex-direction: row; align-items: baseline; 
+    width: 800px; height: 120px; font-size: 60px; position: relative;
+    transform: translateX(-60px); 
+    font-family: inherit;
+    margin-bottom: 20px;
+}
+
+.rsvp-left { flex: 1; text-align: right; white-space: pre; color: var(--hf-text-dim); }
+.rsvp-right { flex: 1; text-align: left; white-space: pre; color: var(--hf-text-dim); }
+
+.rsvp-pivot {
+    color: var(--hf-accent); 
+    font-weight: bold; 
+    padding: 0 1px; 
+    position: relative;
+    border-top: 2px solid var(--hf-text-dim);
+    border-bottom: 2px solid var(--hf-text-dim);
+}
+
+/* --- TIMELINE --- */
+#rsvp-timeline-container {
+    width: 600px; margin-bottom: 30px;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+#rsvp-progress-bg {
+    width: 100%; height: 6px; background: var(--hf-text-dim); opacity: 0.3;
+    border-radius: 3px; overflow: hidden;
+}
+#rsvp-progress-fill {
+    height: 100%; width: 0%; background-color: var(--hf-accent);
+    transition: width 0.2s linear;
+}
+#rsvp-time-label {
+    font-size: 16px; 
+    color: var(--hf-text-dim); 
+    font-variant-numeric: tabular-nums;
+    margin-top: 5px;
+}
+
+/* --- CONTROLS BAR --- */
+#rsvp-controls-wrapper {
+    position: relative;
+    height: auto; width: auto; 
+    display: flex; justify-content: center;
+}
+
+#rsvp-controls {
+    display: flex; gap: 10px; 
+    background: var(--hf-panel-bg);
+    padding: 15px 25px; border-radius: 12px;
+    border: var(--hf-border);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+    opacity: 1; transform: translateY(0);
+}
+
+#rsvp-controls.hidden-controls {
+    padding: 10px; gap: 0;
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    justify-content: center; align-items: center;
+}
+
+#rsvp-controls.hidden-controls button:not(#btn-hide) {
+    display: none;
+}
+
+#rsvp-controls.hidden-controls #btn-hide {
+    width: 100%; height: 100%;
+    justify-content: center;
+    padding: 0; margin: 0;
+    border: none;
+}
+#rsvp-controls.hidden-controls #btn-hide:hover {
+    background: transparent;
+    border: none;
+    color: var(--hf-accent);
+    transform: scale(1.1);
+}
+
+#rsvp-controls button {
+    background: transparent; 
+    border: 1px solid transparent;
+    color: var(--hf-text); 
+    cursor: pointer; 
+    font-size: 18px; 
+    padding: 10px 14px;
+    border-radius: 6px; 
+    display: flex; align-items: center; gap: 8px;
+    font-weight: 500;
+    font-family: sans-serif;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+#rsvp-controls button:hover {
+    background: rgba(255,255,255,0.1); 
+    border-color: var(--hf-text-dim);
+}
+#btn-toggle { min-width: 100px; justify-content: center; background: var(--hf-accent) !important; color: #000 !important; font-weight: bold !important; }
+
+/* --- SETTINGS POPOVER --- */
+#rsvp-settings-popover {
+    position: absolute; bottom: 80px;
+    background: var(--hf-panel-bg);
+    border: var(--hf-border); 
+    border-radius: 12px;
+    padding: 20px; width: 320px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+    display: none; flex-direction: column; gap: 20px;
+    z-index: 2147483648;
+}
+#rsvp-settings-popover.visible { display: flex; }
+
+.setting-group { display: flex; flex-direction: column; gap: 8px; }
+.setting-label { 
+    font-weight: bold; color: var(--hf-accent); 
+    font-size: 14px; text-transform: uppercase; letter-spacing: 1px; 
+}
+
+.theme-options, .font-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+.option-btn {
+    padding: 8px; font-size: 14px; border: 1px solid var(--hf-text-dim);
+    background: transparent; color: var(--hf-text); border-radius: 4px; cursor: pointer;
+    text-align: center; opacity: 0.7;
+}
+.option-btn:hover { opacity: 1; border-color: var(--hf-accent); }
+.option-btn.active {
+    background: var(--hf-accent); color: var(--hf-bg); 
+    border-color: var(--hf-accent); opacity: 1; font-weight: bold;
+}
+
+#rsvp-summary-modal {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: var(--hf-panel-bg); color: var(--hf-text);
+    padding: 40px; border: var(--hf-border); border-radius: 12px;
+    text-align: center; box-shadow: 0 0 50px rgba(0,0,0,0.9); z-index: 2147483649;
+    display: none; width: 400px;
+}
+#rsvp-summary-modal h2 { margin-top: 0; color: var(--hf-accent); }
+.summary-stat { font-size: 32px; font-weight: bold; margin: 15px 0 5px 0; }
+.summary-sub { font-size: 14px; color: var(--hf-text-dim); text-transform: uppercase; letter-spacing: 1px; }
+
+.donation-area {
+    margin-top: 25px; padding-top: 20px;
+    border-top: 1px dashed var(--hf-text-dim);
+    animation: fadeIn 1s ease-in-out;
+}
+.donation-text {
+    font-size: 14px; margin-bottom: 10px; 
+    color: var(--hf-text); font-style: italic;
+}
+.btn-coffee {
+    background: #FFDD00; color: #000000; border: none;
+    padding: 10px 20px; border-radius: 50px; font-weight: bold;
+    font-family: sans-serif; cursor: pointer; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: transform 0.2s, box-shadow 0.2s; font-size: 14px;
+}
+.btn-coffee:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 221, 0, 0.4);
+}
+.settings-donate-link { margin-top: 15px; text-align: center; font-size: 14px; }
+.settings-donate-link a {
+    color: var(--hf-text-dim); text-decoration: none;
+    border-bottom: 1px dotted var(--hf-text-dim); transition: color 0.3s;
+}
+.settings-donate-link a:hover { color: #FFDD00; border-bottom: 1px solid #FFDD00; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --- LAUNCHER WIDGET --- */
+#rsvp-launcher-container {
+    position: fixed; 
+    bottom: 20px; 
+    right: 20px; 
+    z-index: 2147483646;
+    display: flex; 
+    flex-direction: column; 
+    align-items: flex-end; 
+    gap: 8px;
+    
+    touch-action: none; 
+    user-select: none;
+    transition: opacity 0.3s;
+}
+
+#rsvp-launcher-buttons { display: flex; gap: 10px; transition: opacity 0.2s; }
+#rsvp-launcher-container.minimized #rsvp-launcher-buttons { 
+    display: none; 
+}
+
+#btn-launcher-toggle {
+    width: 50px; height: 50px;
+    border-radius: 50%; cursor: grab;
+    border: none; 
+    background-color: transparent;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: transform 0.3s ease;
+    color: transparent; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
+    position: relative; 
+    z-index: 2;
+}
+
+#btn-launcher-toggle:active { cursor: grabbing; }
+
+#rsvp-launcher-container.minimized #btn-launcher-toggle {
+    transform: rotate(180deg);
+}
+
+.launcher-btn {
+    padding: 12px 24px; color: white; border: none; border-radius: 50px;
+    cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    font-size: 14px; display: flex; align-items: center; gap: 8px;
+    white-space: nowrap;
+}
+#btn-launch-page { background: #ff4500; }
+#btn-launch-clip { background: #007bff; }

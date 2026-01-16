@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "HyperFocus - RSVP",
+  "short_name": "HyperFocus",
+  "version": "1.0.0",
+  "description": "Absorb knowledge at the speed of thought. Advanced RSVP reader with focus themes.",
+  "permissions": [
+    "activeTab", 
+    "scripting", 
+    "clipboardRead", 
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["readability.js", "content.js"],
+      "css": ["styles.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["carrot_icon.png"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
