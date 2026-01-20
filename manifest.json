@@ -2,14 +2,19 @@
   "manifest_version": 3,
   "name": "HyperFocus - RSVP",
   "short_name": "HyperFocus",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Absorb knowledge at the speed of thought. Advanced RSVP reader with focus themes.",
   "permissions": [
     "activeTab", 
-    "scripting", 
     "clipboardRead", 
     "storage"
   ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Toggle HyperFocus Widget"
+  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
