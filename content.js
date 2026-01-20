@@ -1,5 +1,5 @@
 /**
- * HYPERFOCUS v1.0.0 - CONTENT.JS
+ * HYPERFOCUS v1.1.0 - CONTENT.JS
  * Advanced RSVP Reader & Focus Assistant
  * * CORE FEATURES:
  * 1. RSVP Engine: 
@@ -17,6 +17,9 @@
  * - I18n: Full localization for 7 languages (EN, IT, ZH, HI, ES, FR, DE).
  * - Dual Input: Reads parsed article content (Readability) or raw clipboard text.
  * - State Persistence: Syncs preferences via chrome.storage API.
+ * - Event-Driven Activation: Uses message passing with background service worker for on-demand toggle.
+ * * 5. Interaction:
+ * - Smart Draggable Widget: Floating launcher with edge detection and dynamic side-anchoring logic.
  */
 
 const DONATION_URL = "https://ko-fi.com/hyperfocusrsvp"; 
@@ -662,8 +665,42 @@ document.addEventListener('keydown', (e) => {
         if (e.code === 'ArrowLeft') { isPlaying=false; currentIndex = Math.max(0, currentIndex-1); updateWordDisplay(); updateTimeline(); }
     }
 });
+// --- EXTENSION ACTIVATION LOGIC ---
+
+/**
+ * Listens for the "toggle_launcher" message from background.js
+ * Triggered when the user clicks the extension icon.
+ */
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.action === "toggle_launcher") {
+        toggleExtensionVisibility();
+    }
+});
+
+/**
+ * Toggles the visibility of the launcher widget.
+ * If it doesn't exist, it creates it.
+ */
+function toggleExtensionVisibility() {
+    const container = document.getElementById('rsvp-launcher-container');
+    
+    if (container) {
+        // Widget exists: Toggle display
+        if (container.style.display === 'none') {
+            container.style.display = 'flex';
+            // Ensure alignment is correct upon reappearing
+            const rect = container.getBoundingClientRect();
+            if (rect.right > window.innerWidth) container.style.left = (window.innerWidth - rect.width - 10) + 'px';
+        } else {
+            container.style.display = 'none';
+            closeReader(); // Also close the reader overlay if the user turns off the extension
+        }
+    } else {
+        // First activation: Create the widget
+        createLauncher();
+    }
+}
 
 loadSettings().then(() => {
-    createLauncher();
     createOverlay();
 });
